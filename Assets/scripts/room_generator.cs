@@ -7,6 +7,7 @@ public class room_generator : MonoBehaviour
     [SerializeField] private generation generation_script;
     [SerializeField] public List<GameObject> different_rooms;
     [SerializeField] private float expansion;
+    [SerializeField] private bool all_rooms_connected = false;
     [SerializeField] private float restart_delay;
 
     public List<GameObject> rooms__;
@@ -66,7 +67,33 @@ public class room_generator : MonoBehaviour
         {
             foreach (GameObject room__ in rooms__)
             {
-                if (rooms__.IndexOf(room__) <= generation_script.amount_of_rooms - 1)
+                if (rooms__.IndexOf(room__) <= generation_script.amount_of_rooms - 1 && rooms__.IndexOf(room__) > 0)
+                {
+                    room__.GetComponent<door_script>().delete_doors(generation_script.door_list[rooms__.IndexOf(room__)], generation_script.previous_door_list[rooms__.IndexOf(room__)]);
+                    if (all_rooms_connected == true)
+                    {
+                        foreach (Vector2 vtwo in generation_script.room_list)
+                        {
+                            if (vtwo + new Vector2(1, 0) == generation_script.room_list[rooms__.IndexOf(room__) - 1])
+                            {
+                                room__.GetComponent<door_script>().delete_doors(1, 0);
+                            }
+                            if (vtwo + new Vector2(-1, 0) == generation_script.room_list[rooms__.IndexOf(room__) - 1])
+                            {
+                                room__.GetComponent<door_script>().delete_doors(3, 0);
+                            }
+                            if (vtwo + new Vector2(0, 1) == generation_script.room_list[rooms__.IndexOf(room__) - 1])
+                            {
+                                room__.GetComponent<door_script>().delete_doors(4, 0);
+                            }
+                            if (vtwo + new Vector2(0, -1) == generation_script.room_list[rooms__.IndexOf(room__) - 1])
+                            {
+                                room__.GetComponent<door_script>().delete_doors(2, 0);
+                            }
+                        }
+                    }
+                }
+                else if(rooms__.IndexOf(room__) <= generation_script.amount_of_rooms - 1)
                 {
                     room__.GetComponent<door_script>().delete_doors(generation_script.door_list[rooms__.IndexOf(room__)], generation_script.previous_door_list[rooms__.IndexOf(room__)]);
                 }
@@ -77,4 +104,5 @@ public class room_generator : MonoBehaviour
             }
         }
     }
+   
 }

@@ -10,21 +10,36 @@ public class player_animation : MonoBehaviour
 
     void Start()
     {
-        my_anim.Play("hero_idle");
+        my_anim.Play("new jeff idle");
     }
 
     void Update()
     {
-        if(mov_script.current_speed_x > min_movement || mov_script.current_speed_x < -min_movement || mov_script.current_speed_y > min_movement || mov_script.current_speed_y < -min_movement)
+        if (mov_script.current_speed_x > min_movement || mov_script.current_speed_x < -min_movement || mov_script.current_speed_y > min_movement || mov_script.current_speed_y < -min_movement)
         {
-            my_anim.Play("movement");
+            if (mov_script.current_speed_x > min_movement || mov_script.current_speed_x < -min_movement)
+            {
+                    my_anim.Play("new jeff run");
+                    my_anim.speed = 1;
+                
+            }
+            else if(mov_script.current_speed_y < -min_movement)
+            {
+                my_anim.Play("newer down anim");
+                my_anim.speed = 1;
+            }
+            else if (mov_script.current_speed_y > min_movement)
+            {
+                my_anim.Play("newer jeff up");
+                my_anim.speed = 1;
+            }
         }
         else
         {
-            my_anim.Play("hero_idle");
+            my_anim.speed = 0;
         }
 
-        if(mov_script.current_speed_x > min_movement)
+        if (mov_script.current_speed_x > min_movement)
         {
             this.transform.rotation = Quaternion.Euler(0,0,0);
         }
